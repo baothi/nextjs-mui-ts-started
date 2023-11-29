@@ -1,3 +1,4 @@
+import AppFooter from "@/components/footer/app.footer";
 import MainSlider from "@/components/main/main.slider";
 import { Container } from "@mui/material";
 export default function HomePage() {
@@ -6,6 +7,7 @@ export default function HomePage() {
       <MainSlider />
       <MainSlider />
       <MainSlider />
+      <AppFooter />
     </Container>
   );
 }
