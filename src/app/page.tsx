@@ -5,6 +5,8 @@ export default function HomePage() {
   return (
     <Container>
       <MainSlider />
+      <MainSlider />
+      <MainSlider />
     </Container>
   );
 }
