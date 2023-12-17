@@ -1,15 +1,15 @@
 'use client'
-import { useRef, useMemo, useCallback, useState, useEffect } from "react";
+
+import { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import { useSearchParams } from 'next/navigation';
 import { useWavesurfer } from "@/utils/customHook";
-import { WaveSurferOptions } from "wavesurfer.js";
-
+import { WaveSurferOptions } from 'wavesurfer.js';
+import './wave.scss';
 
 const WaveTrack = () => {
     const searchParams = useSearchParams()
     const fileName = searchParams.get('audio');
     const containerRef = useRef<HTMLDivElement>(null);
-    const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
     const optionsMemo = useMemo((): Omit<WaveSurferOptions, 'container'> => {
         const canvas = document.createElement('canvas');
@@ -41,16 +41,27 @@ const WaveTrack = () => {
             url: `/api?audio=${fileName}`,
         }
     }, []);
-
     const wavesurfer = useWavesurfer(containerRef, optionsMemo);
+    const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
+    // Initialize wavesurfer when the container mounts
+    // or any of the props change
     useEffect(() => {
         if (!wavesurfer) return
         setIsPlaying(false)
+        const timeEl = document.querySelector('#time')!;
+        const durationEl = document.querySelector('#duration')!; //jquery
+
+        const hover = document.querySelector('#hover')!;
+        const waveform = containerRef.current!;
+        //@ts-ignore
+        waveform.addEventListener('pointermove', (e) => (hover.style.width = `${e.offsetX}px`))
 
         const subscriptions = [
             wavesurfer.on('play', () => setIsPlaying(true)),
             wavesurfer.on('pause', () => setIsPlaying(false)),
+            wavesurfer.on('decode', (duration) => (durationEl.textContent = formatTime(duration))),
+            wavesurfer.on('timeupdate', (currentTime) => (timeEl.textContent = formatTime(currentTime))),
         ]
 
         return () => {
@@ -65,15 +76,26 @@ const WaveTrack = () => {
         }
     }, [wavesurfer]);
 
+    const formatTime = (seconds: number) => {
+        const minutes = Math.floor(seconds / 60)
+        const secondsRemainder = Math.round(seconds) % 60
+        const paddedSeconds = `0${secondsRemainder}`.slice(-2)
+        return `${minutes}:${paddedSeconds}`
+    }
+
+
     return (
-        <div>
-            <div ref={containerRef}>
-                wave track
+        <div style={{ marginTop: 100 }}>
+            <div ref={containerRef} className="wave-form-container">
+                <div id="time">0:00</div>
+                <div id="duration">0:00</div>
+                <div id="hover"></div>
             </div>
             <button onClick={() => onPlayClick()}>
                 {isPlaying === true ? "Pause" : "Play"}
             </button>
         </div>
+
     )
 }
 
