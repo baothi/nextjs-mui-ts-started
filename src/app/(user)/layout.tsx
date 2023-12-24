@@ -6,7 +6,7 @@ import NextAuthProvider from '@/lib/next.auth.provider';
 
 
 
-export default function UserLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>

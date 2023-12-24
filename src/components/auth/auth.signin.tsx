@@ -8,7 +8,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const AuthSignIn = (props: any) => {
 
@@ -21,6 +21,8 @@ const AuthSignIn = (props: any) => {
 
     const [errorUsername, setErrorUsername] = useState<string>("");
     const [errorPassword, setErrorPassword] = useState<string>("");
+
+    const videoRef = useRef(null);
 
 
     const handleSubmit = () => {
@@ -42,20 +44,42 @@ const AuthSignIn = (props: any) => {
         console.log(">>> check username: ", username, ' pass: ', password)
     }
 
+    useEffect(() => {
+        // Ensure the video plays on load
+        if (videoRef.current) {
+            videoRef.current.play();
+        }
+    }, []);
+
     return (
         <Box
             sx={{
                 // backgroundImage: "linear-gradient(to bottom, #ff9aef, #fedac1, #d5e1cf, #b7e6d9)",
                 // backgroundColor: "#b7e6d9",
-                // backgroundRepeat: "no-repeat"
+                // backgroundRepeat: "no-repeat",
+                position: 'relative',
+                height: '100vh',
+                overflow: 'hidden',
             }}
         >
+            <video ref={videoRef} loop autoPlay muted style={{ 
+                position: 'absolute',
+                width: '100%',
+                // left: 0,
+                // top: 0,
+                height: '100%',
+                objectFit: 'cover',
+                zIndex: -1
+            }}>
+                <source src="https://gw.alipayobjects.com/v/huamei_gcee1x/afts/video/jXRBRK_VAwoAAAAAAAAAAAAAK4eUAQBr" type="video/mp4" />
+            </video>
             <Grid container
                 sx={{
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    height: "100vh"
+                    height: "100vh",
+                    zIndex: 1, // Ensure the grid is above the video
                 }}
             >
                 <Grid
@@ -65,7 +89,8 @@ const AuthSignIn = (props: any) => {
                     md={5}
                     lg={4}
                     sx={{
-                        boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+                        boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+                        backgroundColor: 'rgba(255, 255, 255, 25)', // Optional: Add a semi-transparent overlay for better readability
                     }}
                 >
                     <div style={{ margin: "20px" }}>

@@ -1,8 +1,9 @@
+import AuthSignIn from '@/components/auth/auth.signin';
 import React from 'react'
 
 const SignInPage = () => {
   return (
-    <div>Sign In Page</div>
+    <AuthSignIn />
   )
 }
 
