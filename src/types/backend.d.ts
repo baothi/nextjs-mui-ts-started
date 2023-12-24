@@ -50,4 +50,6 @@ declare global {
         result: T[]
     }
 
+    interface IAuthUser {}
+
 }
