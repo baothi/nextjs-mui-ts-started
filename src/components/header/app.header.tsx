@@ -20,6 +20,7 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { useSession } from "next-auth/react"
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -64,6 +65,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function AppHeader() {
+  const { data: session } = useSession();
+  console.log(">>> check session : ", session);
+  console.log(">>> check hook : ", useSession());
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -216,16 +220,29 @@ export default function AppHeader() {
                       textDecoration: "none",
                     }
                     }}>
-                <Link className={`link ${pathname === '/' ? 'active' : ''}`} href="/playlist">
-                  Playlist
-                </Link>
-                <Link className={`link ${pathname === '/' ? 'active' : ''}`} href="/like">
-                  Likes
-                </Link>
-                <Link href={""}>Upload</Link>
-                <Avatar
-                    onClick={handleProfileMenuOpen}
-                >H</Avatar>
+                      {
+                        session ? 
+                        <>
+                          <Link className={`link ${pathname === '/' ? 'active' : ''}`} href="/playlist">
+                            Playlist
+                          </Link>
+                          <Link className={`link ${pathname === '/' ? 'active' : ''}`} href="/like">
+                            Likes
+                          </Link>
+                          <Link href={""}>Upload</Link>
+                          <Avatar
+                              onClick={handleProfileMenuOpen}
+                          >H</Avatar>
+                        </>
+                        :
+                        <>
+                          <Link href="/api/auth/signin">
+                            Login
+                          </Link>
+                          
+                        </>
+                      }
+                
                 {/* <IconButton
                 size="large"
                 edge="end"

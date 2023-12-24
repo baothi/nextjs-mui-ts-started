@@ -3,6 +3,10 @@ import MainSlider from "@/components/main/main.slider";
 import { Container } from "@mui/material";
 // import { sendRequestJS } from "@/utils/old.api";
 import { sendRequest } from "@/utils/api";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+
+
 export default async function HomePage() {
   // const res = await fetch("http://localhost:8000/api/v1/tracks/top",{
   //   method: "POST",
@@ -15,6 +19,8 @@ export default async function HomePage() {
   //   })
   // });
   // console.log("check response server returned : ", await res.json());
+  const session = await getServerSession(authOptions);
+  console.log("session returned : ", session);
   const chills = await sendRequest<IBackendRes<ITrackTop[]>>({
     url: "http://localhost:8000/api/v1/tracks/top",
     method: "POST",
