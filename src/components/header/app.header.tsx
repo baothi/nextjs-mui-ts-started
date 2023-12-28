@@ -238,7 +238,9 @@ export default function AppHeader() {
                         </>
                         :
                         <>
-                          <Link href={"#"} onClick={()=> signIn()}>
+                          <Link href={"auth/signin"} 
+                            // onClick={()=> signIn()}
+                            >
                             Login
                           </Link>
                           

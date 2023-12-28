@@ -7,10 +7,15 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
+import { signIn } from "next-auth/react";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { ArrowBack } from "@mui/icons-material";
+import { useRouter } from 'next/navigation'
 
 const AuthSignIn = (props: any) => {
+    const router = useRouter();
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [username, setUsername] = useState<string>("");
@@ -25,7 +30,7 @@ const AuthSignIn = (props: any) => {
     const videoRef = useRef(null);
 
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         setIsErrorUsername(false);
         setIsErrorPassword(false);
         setErrorUsername("");
@@ -42,6 +47,17 @@ const AuthSignIn = (props: any) => {
             return;
         }
         console.log(">>> check username: ", username, ' pass: ', password)
+        const res = await signIn("credentials", 
+        {
+            username: username, 
+            password: password,
+            redirect: false,
+        });
+        if(!res?.error){
+            router.push("/")
+        }else{
+            alert(res.error)
+        }
     }
 
     useEffect(() => {
@@ -94,6 +110,9 @@ const AuthSignIn = (props: any) => {
                     }}
                 >
                     <div style={{ margin: "20px" }}>
+                        <Link href="/">
+                            <ArrowBack />
+                        </Link>
                         <Box sx={{
                             display: "flex",
                             justifyContent: "center",
@@ -169,6 +188,7 @@ const AuthSignIn = (props: any) => {
                                     cursor: "pointer",
                                     bgcolor: "orange"
                                 }}
+                                onClick={()=> signIn("github")}
                             >
                                 <GitHubIcon titleAccess="Login with Github" />
                             </Avatar>
