@@ -231,14 +231,14 @@ export default function AppHeader() {
                           <Link className={`link ${pathname === '/' ? 'active' : ''}`} href="/like">
                             Likes
                           </Link>
-                          <Link href={""}>Upload</Link>
+                          <Link href={"/track/upload"}>Upload</Link>
                           <Avatar
                               onClick={handleProfileMenuOpen}
                           >H</Avatar>
                         </>
                         :
                         <>
-                          <Link href={"auth/signin"} 
+                          <Link href={"/auth/signin"} 
                             // onClick={()=> signIn()}
                             >
                             Login
