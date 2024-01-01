@@ -5,7 +5,6 @@ import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useCallback, useState } from 'react';
-import { sendRequest, sendRequestFile } from '@/utils/api';
 import { useSession } from "next-auth/react";
 import axios from 'axios';
 
@@ -37,9 +36,11 @@ function InputFileUpload() {
 interface IProps {
     setValue: (v: number) => void;
     setTrackUpload: any;
+    trackUpload: any;
 }
 
 const Step1 = (props: IProps) => {
+    const { trackUpload } = props;
     const { data: session } = useSession();
     //useMemo => variable
     const onDrop = useCallback(async (acceptedFiles: FileWithPath[]) => {
@@ -61,12 +62,16 @@ const Step1 = (props: IProps) => {
                             let percentCompleted = Math.floor((progressEvent.loaded * 100) / progressEvent.total!);
 
                             props.setTrackUpload({
+                                ...trackUpload,
                                 fileName: acceptedFiles[0].name,
                                 percent: percentCompleted
                             })
                         }
                     })
-                console.log(">>> check audio: ", res.data.data.fileName)
+                props.setTrackUpload((prevState: any) => ({
+                    ...prevState,
+                    uploadedTrackName: res.data.data.fileName
+                }))
             } catch (error) {
                 //@ts-ignore
                 alert(error?.response?.data?.message)
