@@ -9,13 +9,16 @@ import PauseIcon from '@mui/icons-material/Pause';
 import './wave.scss';
 import { Tooltip } from "@mui/material";
 import { useTrackContext } from "@/lib/track.wrapper";
+import CommentTrack from "./comment.track";
+import { fetchDefaultImages } from "@/utils/api";
+import LikeTrack from "./like.track";
 
 interface IProps {
     track: ITrackTop | null;
 }
 
 const WaveTrack = (props: IProps) => {
-    const { track } = props;
+    const { track, comments } = props;
     const searchParams = useSearchParams()
     const fileName = searchParams.get('audio');
     const containerRef = useRef<HTMLDivElement>(null);
@@ -235,7 +238,7 @@ const WaveTrack = (props: IProps) => {
                             style={{ position: "relative" }}
                         >
                             {
-                                arrComments.map(item => {
+                                comments.map(item => {
                                     return (
                                         <Tooltip title={item.content} arrow key={item.id}>
                                             <img
@@ -251,7 +254,8 @@ const WaveTrack = (props: IProps) => {
                                                     zIndex: 20,
                                                     left: calLeft(item.moment)
                                                 }}
-                                                src={`http://localhost:8000/images/chill1.png`}
+                                                // src={`http://localhost:8000/images/chill1.png`}
+                                                src={fetchDefaultImages(item.user.type)}
                                             />
                                         </Tooltip>
                                     )
@@ -268,13 +272,34 @@ const WaveTrack = (props: IProps) => {
                         alignItems: "center"
                     }}
                 >
-                    <div style={{
-                        background: "#ccc",
-                        width: 250,
-                        height: 250
-                    }}>
-                    </div>
+                    {track?.imgUrl ?
+                        <img
+                            src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/images/${track?.imgUrl}`}
+                            width={250}
+                            height={250}
+                            /> 
+                            :
+                    
+                        <div style={{
+                            background: "#ccc",
+                            width: 250,
+                            height: 250
+                            }}>
+                        </div>
+                    }
                 </div>
+            </div>
+            <div>
+                <LikeTrack
+                    track={track}
+                />
+            </div>
+            <div>
+                <CommentTrack
+                    comments={comments}
+                    track={track}
+                    wavesurfer={wavesurfer}
+                />
             </div>
         </div >
     )

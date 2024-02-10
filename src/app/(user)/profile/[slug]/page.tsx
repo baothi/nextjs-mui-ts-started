@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid';
 
 const ProfilePage = async ({params}:{params: {slug: string}}) => {
   // console.log("ProfilePage is available on your application :", process.env.NEXT_PUBLIC_BACKEND_URL);
-  const slug = params.slug;
+    const slug = params.slug;
 
     const data = await sendRequest({
         url: "http://localhost:8000/api/v1/tracks/users?current=1&pageSize=10",
@@ -17,20 +17,20 @@ const ProfilePage = async ({params}:{params: {slug: string}}) => {
     //@ts-ignore
     const d = data?.data?.result ?? []
 
-  return (
-    <Container sx={{ my: 5 }}>
-            <Grid container spacing={5}>
-                {d.map((item: any, index: number) => {
-                    return (
-                        <Grid item xs={12} md={6} key={index}>
-                            <ProfileTracks data={item} />
-                        </Grid>
-                    )
-                })}
-            </Grid>
-        </Container>
+    return (
+        <Container sx={{ my: 5 }}>
+                <Grid container spacing={5}>
+                    {d.map((item: any, index: number) => {
+                        return (
+                            <Grid item xs={12} md={6} key={index}>
+                                <ProfileTracks data={item} />
+                            </Grid>
+                        )
+                    })}
+                </Grid>
+            </Container>
 
-  )
+    )
 }
 
 export default ProfilePage;
