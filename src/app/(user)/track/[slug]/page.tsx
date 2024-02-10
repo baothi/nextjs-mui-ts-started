@@ -3,6 +3,39 @@ import { useSearchParams } from 'next/navigation'
 import Container from '@mui/material/Container';
 import { sendRequest } from '@/utils/api';
 
+import type { Metadata, ResolvingMetadata } from 'next'
+ 
+type Props = {
+    params: { slug: string }
+    searchParams: { [key: string]: string | string[] | undefined }
+}
+ 
+export async function generateMetadata(
+    { params, searchParams }: Props,
+    parent: ResolvingMetadata
+): Promise<Metadata> {
+        // read route params
+        // const slug = params.slug
+
+        // fetch data
+        const res = await sendRequest<IBackendRes<ITrackTop>>({
+            url: `http://localhost:8000/api/v1/tracks/${params.slug}`,
+            method: "GET",
+            // nextOption: { cache: "no-store" },
+        })
+
+        // optionally access and extend (rather than replace) parent metadata
+        // const previousImages = (await parent).openGraph?.images || []
+
+        return {
+            title: res.data?.title,
+            description: res.data?.description
+            // openGraph: {
+            //     images: ['/some-specific-page-image.jpg', ...previousImages],
+            // },
+        }
+    }
+
 const DetailTrackPage = async (props: any) => {
     const { params } = props;
 
