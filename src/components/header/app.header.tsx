@@ -22,6 +22,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useSession, signIn, signOut } from "next-auth/react";
 import { fetchDefaultImages } from '@/utils/api';
+import Image from 'next/image';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -233,7 +234,7 @@ export default function AppHeader() {
                             Likes
                           </Link>
                           <Link href={"/track/upload"}>Upload</Link>
-                          <img 
+                          {/* <img 
                             onClick={handleProfileMenuOpen}
                             style={{
                               height: 35,
@@ -241,6 +242,16 @@ export default function AppHeader() {
                               cursor: "pointer"
                             }}
                             src={fetchDefaultImages(session.user.type)}
+                            /> */}
+                            <Image 
+                              onClick={handleProfileMenuOpen}
+                              style={{
+                                cursor: "pointer"
+                              }}
+                              height={35}
+                              width={35}
+                              src={fetchDefaultImages(session.user.type)}
+                              alt='header image'
                             />
                           {/* <Avatar
                               onClick={handleProfileMenuOpen}

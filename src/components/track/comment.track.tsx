@@ -10,6 +10,7 @@ import WaveSurfer from "wavesurfer.js";
 
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useHasMounted } from '@/utils/customHook';
+import Image from 'next/image';
 dayjs.extend(relativeTime)
 
 interface IProps {
@@ -83,11 +84,17 @@ const CommentTrack = (props: IProps) => {
             </div>
             <div style={{ display: "flex", gap: "10px" }}>
                 <div className='left' style={{ width: "190px" }}>
-                    <img
+                    {/* <img
                         style={{
                             height: 150, width: 150,
                         }}
                         src={fetchDefaultImages(track?.uploader?.type!)}
+                    /> */}
+                    <Image
+                        height={50} 
+                        width={50}
+                        src={fetchDefaultImages(track?.uploader?.type!)}
+                        alt='comment image'
                     />
                     <div>{track?.uploader?.email}</div>
                 </div>
@@ -96,12 +103,22 @@ const CommentTrack = (props: IProps) => {
                         return (
                             <Box key={comment._id} sx={{ display: "flex", gap: "10px", justifyContent: "space-between" }}>
                                 <Box sx={{ display: "flex", gap: "10px", marginBottom: "25px", alignItems: "center" }}>
-                                    <img
+                                    {/* <img
                                         style={{
                                             height: 40, width: 40,
 
                                         }}
                                         src={fetchDefaultImages(comment.user.type)}
+                                    /> */}
+                                    <Image
+                                        // style={{
+                                        //     height: 40, width: 40,
+
+                                        // }}
+                                        src={fetchDefaultImages(comment.user.type)}
+                                        height={40} 
+                                        width={40}
+                                        alt=''
                                     />
                                     <div>
                                         <div style={{ fontSize: "13px" }}>{comment?.user?.name ?? comment?.user?.email} at
