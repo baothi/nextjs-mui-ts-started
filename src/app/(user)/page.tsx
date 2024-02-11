@@ -20,7 +20,7 @@ export default async function HomePage() {
   // });
   // console.log("check response server returned : ", await res.json());
   const session = await getServerSession(authOptions);
-  console.log("session returned : ", session);
+  // console.log("session returned : ", session);
   const chills = await sendRequest<IBackendRes<ITrackTop[]>>({
     url: "http://localhost:8000/api/v1/tracks/top",
     method: "POST",
@@ -45,13 +45,16 @@ export default async function HomePage() {
   return (
     <Container>
       <MainSlider 
-      data={chills?.data ?? []}
+        data={chills?.data ?? []}
+        title=""
       />
       <MainSlider 
-      data={workouts?.data ?? []}
+        data={workouts?.data ?? []}
+        title=""
       />
       <MainSlider 
-      data={party?.data ?? []}
+        data={party?.data ?? []}
+        title=""
       />
       <AppFooter />
     </Container>

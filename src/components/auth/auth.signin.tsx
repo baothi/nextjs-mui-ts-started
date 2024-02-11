@@ -59,7 +59,7 @@ const AuthSignIn = (props: any) => {
             setErrorPassword("Password is not empty.")
             return;
         }
-        console.log(">>> check username: ", username, ' pass: ', password)
+        // console.log(">>> check username: ", username, ' pass: ', password)
         const res = await signIn("credentials", 
         {
             username: username, 
@@ -78,7 +78,8 @@ const AuthSignIn = (props: any) => {
     useEffect(() => {
         // Ensure the video plays on load
         if (videoRef.current) {
-            videoRef.current.play();
+            //@ts-ignore
+            videoRef?.current?.play();
         }
     }, []);
 

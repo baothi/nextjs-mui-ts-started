@@ -170,7 +170,7 @@ const Step2 = (props: IProps) => {
         }
     }
 
-    console.log(">>> check infor: ", info)
+    // console.log(">>> check infor: ", info)
 
     return (
         <div>

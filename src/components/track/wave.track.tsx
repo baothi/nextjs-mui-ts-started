@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 
 interface IProps {
     track: ITrackTop | null;
+    comments: ITrackComment[] | null;
 }
 
 const WaveTrack = (props: IProps) => {
@@ -256,16 +257,16 @@ const WaveTrack = (props: IProps) => {
                         <div className="comments"
                             style={{ position: "relative" }}
                         >
-                            {
+                            {   comments &&
                                 comments.map(item => {
                                     return (
-                                        <Tooltip title={item.content} arrow key={item.id}>
+                                        <Tooltip title={item.content} arrow key={item._id}>
                                             <img
                                                 onPointerMove={(e) => {
                                                     const hover = hoverRef.current!;
                                                     hover.style.width = calLeft(item.moment)
                                                 }}
-                                                key={item.id}
+                                                key={item._id}
                                                 style={{
                                                     height: 20, width: 20,
                                                     position: "absolute",
@@ -315,7 +316,7 @@ const WaveTrack = (props: IProps) => {
             </div>
             <div>
                 <CommentTrack
-                    comments={comments}
+                    comments={comments ?? []}
                     track={track}
                     wavesurfer={wavesurfer}
                 />
